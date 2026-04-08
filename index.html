@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -10,12 +9,10 @@
 <style>
   body {
     margin: 0;
-    text-align: center;
     font-family: Arial, sans-serif;
     background: #FF8DA1;
     color: white;
     overflow: hidden;
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,25 +23,20 @@
     font-size: 36px;
   }
 
-  button {
-    padding: 15px 30px;
-    font-size: 18px;
-    background: pink;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-
-  #mensagem {
-    margin-top: 20px;
-    font-size: 20px;
-    display: none;
-  }
-
   #contador {
     margin-top: 10px;
     font-size: 18px;
+  }
+
+  #mensagem {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    font-size: 20px;
+    background: rgba(0,0,0,0.3);
+    padding: 10px 15px;
+    border-radius: 10px;
+    display: none;
   }
 
   .heart {
@@ -58,7 +50,6 @@
     100% { transform: translateY(100vh); }
   }
 </style>
-
 </head>
 
 <body>
@@ -72,10 +63,8 @@
 <p id="mensagem">Eu te amo muito 💖 Você é, e sempre será minha princesinha!</p>
 
 <audio id="musica" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+  <source src="https://raw.githubusercontent.com/arisionetopsn-netizen/anaeneto/main/Restless%20-%20Instrumental_spotdown.org.mp3" type="audio/mpeg">
 </audio>
-
-<button onclick="tocarMusica()">Tocar música 🎵</button>
 
 <script>
 function mostrarMensagem() {
@@ -83,27 +72,45 @@ function mostrarMensagem() {
 }
 
 function tocarMusica() {
-  document.getElementById("musica").play();
+  const musica = document.getElementById("musica");
+  musica.play().catch(() => {
+    console.log("Autoplay bloqueado pelo navegador. Clique no botão para tocar a música.");
+  });
 }
 
-// contador de tempo juntos
-let inicio = new Date("2026-03-10");
+// tentar tocar automaticamente
+window.addEventListener('load', () => {
+  tocarMusica();
+});
+
+// contador detalhado
+let inicio = new Date("2026-03-10T00:00:00");
 
 function atualizarContador() {
-  let agora = new Date();
+  const agora = new Date();
   let diff = agora - inicio;
 
-  let dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  let segundos = Math.floor(diff / 1000);
+  let minutos = Math.floor(segundos / 60);
+  let horas = Math.floor(minutos / 60);
+  let dias = Math.floor(horas / 24);
 
-  document.getElementById("contador").innerText =
-    "Estamos juntos há " + dias + " dias 💖";
+  let anos = Math.floor(dias / 365);
+  let meses = Math.floor((dias % 365) / 30);
+  let diasRestantes = (dias % 365) % 30;
+  let horasRestantes = horas % 24;
+  let minutosRestantes = minutos % 60;
+  let segundosRestantes = segundos % 60;
+
+  document.getElementById("contador").innerText = 
+    `Estamos juntos há ${anos} anos, ${meses} meses, ${diasRestantes} dias, ${horasRestantes}h ${minutosRestantes}m ${segundosRestantes}s 💖`;
 }
 
-// chama imediatamente
+// chama imediatamente e atualiza a cada segundo
 atualizarContador();
 setInterval(atualizarContador, 1000);
 
-// corações caindo (mais leve)
+// corações caindo
 function criarCoracao() {
   const heart = document.createElement("div");
   heart.classList.add("heart");
@@ -113,9 +120,7 @@ function criarCoracao() {
 
   document.body.appendChild(heart);
 
-  setTimeout(() => {
-    heart.remove();
-  }, 5000);
+  setTimeout(() => heart.remove(), 5000);
 }
 
 setInterval(criarCoracao, 800);
