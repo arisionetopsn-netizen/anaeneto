@@ -1,21 +1,29 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Ana ❤️ Neto</title>
 
 <style>
   body {
+    margin: 0;
     text-align: center;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     background: #0f0f1a;
     color: white;
     overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   h1 {
-    margin-top: 50px;
-    font-size: 40px;
+    margin-top: 40px;
+    font-size: 36px;
   }
 
   button {
@@ -25,12 +33,18 @@
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    margin-top: 20px;
   }
 
   #mensagem {
     margin-top: 20px;
     font-size: 20px;
     display: none;
+  }
+
+  #contador {
+    margin-top: 10px;
+    font-size: 18px;
   }
 
   .heart {
@@ -44,6 +58,7 @@
     100% { transform: translateY(100vh); }
   }
 </style>
+
 </head>
 
 <body>
@@ -56,30 +71,39 @@
 
 <p id="mensagem">Eu te amo muito 💖 Você é, e sempre será minha princesinha!</p>
 
-<audio autoplay loop>
+<audio id="musica" loop>
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
 </audio>
+
+<button onclick="tocarMusica()">Tocar música 🎵</button>
 
 <script>
 function mostrarMensagem() {
   document.getElementById("mensagem").style.display = "block";
 }
 
+function tocarMusica() {
+  document.getElementById("musica").play();
+}
+
 // contador de tempo juntos
-let inicio = new Date("2026-03-10"); // MUDA A DATA AQUI
+let inicio = new Date("2026-03-10");
 
 function atualizarContador() {
   let agora = new Date();
   let diff = agora - inicio;
 
   let dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+
   document.getElementById("contador").innerText =
     "Estamos juntos há " + dias + " dias 💖";
 }
 
+// chama imediatamente
+atualizarContador();
 setInterval(atualizarContador, 1000);
 
-// corações caindo
+// corações caindo (mais leve)
 function criarCoracao() {
   const heart = document.createElement("div");
   heart.classList.add("heart");
@@ -94,7 +118,7 @@ function criarCoracao() {
   }, 5000);
 }
 
-setInterval(criarCoracao, 300);
+setInterval(criarCoracao, 800);
 </script>
 
 </body>
