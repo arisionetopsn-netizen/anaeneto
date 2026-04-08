@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Ana 💗 Neto</title>
 
 <style>
@@ -39,6 +38,22 @@
     display: none;
   }
 
+  #player {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  button {
+    padding: 12px 25px;
+    font-size: 16px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: pink;
+  }
+
   .heart {
     position: absolute;
     color: red;
@@ -59,31 +74,29 @@
 <p id="contador"></p>
 
 <button onclick="mostrarMensagem()">Clique aqui 💌</button>
+<button onclick="tocarMusica()">Tocar música 🎵</button>
 
 <p id="mensagem">Eu te amo muito 💖 Você é, e sempre será minha princesinha!</p>
 
-<iframe width="10%" height="166" scrolling="no" frameborder="no" auto_play="true"
-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/xom-xom-318495754/restless-instrumental&color=%23ff5500&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
-</iframe>
+<div id="player">
+  <iframe id="scPlayer" width="100%" height="166" scrolling="no" frameborder="no"
+    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/xom-xom-318495754/restless-instrumental&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
+  </iframe>
+</div>
 
 <script>
+// Mostrar mensagem
 function mostrarMensagem() {
   document.getElementById("mensagem").style.display = "block";
 }
 
+// Tocar música via SoundCloud postMessage API
 function tocarMusica() {
-  const musica = document.getElementById("musica");
-  musica.play().catch(() => {
-    console.log("Autoplay bloqueado pelo navegador. Clique no botão para tocar a música.");
-  });
+  const iframe = document.getElementById('scPlayer');
+  iframe.contentWindow.postMessage(JSON.stringify({ method: 'play' }), '*');
 }
 
-// tentar tocar automaticamente
-window.addEventListener('load', () => {
-  tocarMusica();
-});
-
-// contador detalhado
+// Contador detalhado
 let inicio = new Date("2026-03-11T00:00:00");
 
 function atualizarContador() {
@@ -106,11 +119,10 @@ function atualizarContador() {
     `Estamos juntos há ${anos} anos, ${meses} meses, ${diasRestantes} dias, ${horasRestantes}h ${minutosRestantes}m ${segundosRestantes}s 💖`;
 }
 
-// chama imediatamente e atualiza a cada segundo
 atualizarContador();
 setInterval(atualizarContador, 1000);
 
-// corações caindo
+// Corações caindo
 function criarCoracao() {
   const heart = document.createElement("div");
   heart.classList.add("heart");
@@ -119,7 +131,6 @@ function criarCoracao() {
   heart.style.fontSize = Math.random() * 20 + 10 + "px";
 
   document.body.appendChild(heart);
-
   setTimeout(() => heart.remove(), 5000);
 }
 
