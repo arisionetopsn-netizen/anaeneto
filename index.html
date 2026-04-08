@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Ana ❤️ Neto</title>
+
+<style>
+  body {
+    text-align: center;
+    font-family: Arial;
+    background: #0f0f1a;
+    color: white;
+    overflow: hidden;
+  }
+
+  h1 {
+    margin-top: 50px;
+    font-size: 40px;
+  }
+
+  button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background: pink;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  #mensagem {
+    margin-top: 20px;
+    font-size: 20px;
+    display: none;
+  }
+
+  .heart {
+    position: absolute;
+    color: red;
+    animation: cair 5s linear infinite;
+  }
+
+  @keyframes cair {
+    0% { transform: translateY(-100px); }
+    100% { transform: translateY(100vh); }
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Ana ❤️ Neto</h1>
+
+<p id="contador"></p>
+
+<button onclick="mostrarMensagem()">Clique aqui 💌</button>
+
+<p id="mensagem">Eu te amo muito 💖 Você é, e sempre será minha princesinha!</p>
+
+<audio autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
+<script>
+function mostrarMensagem() {
+  document.getElementById("mensagem").style.display = "block";
+}
+
+// contador de tempo juntos
+let inicio = new Date("2026-03-10"); // MUDA A DATA AQUI
+
+function atualizarContador() {
+  let agora = new Date();
+  let diff = agora - inicio;
+
+  let dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  document.getElementById("contador").innerText =
+    "Estamos juntos há " + dias + " dias 💖";
+}
+
+setInterval(atualizarContador, 1000);
+
+// corações caindo
+function criarCoracao() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerText = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 20 + 10 + "px";
+
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 5000);
+}
+
+setInterval(criarCoracao, 300);
+</script>
+
+</body>
+</html>
